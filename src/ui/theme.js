@@ -20,8 +20,8 @@ export const spacing = {
   md: "1.25rem",
   lg: "1.75rem",
   xl: "2.5rem",
-  section: "clamp(4.75rem, 9vw, 6.75rem)",
-  sectionTight: "clamp(3.75rem, 8vw, 5rem)",
+  section: "clamp(4.75rem, 8vw, 7.5rem)",
+  sectionTight: "clamp(3.75rem, 7vw, 5.75rem)",
   shell: "clamp(1.1rem, 3vw, 1.5rem)",
 };
 
@@ -35,7 +35,7 @@ export const radius = {
 export const text = {
   xs: "0.8rem",
   sm: "0.92rem",
-  base: "1rem",
+  base: "clamp(1rem, 0.96rem + 0.18vw, 1.08rem)",
   lg: "1.05rem",
   xl: "clamp(1.9rem, 4vw, 2.6rem)",
   display: "clamp(2.4rem, 5vw, 3.45rem)",
@@ -49,9 +49,9 @@ export const shadows = {
 };
 
 export const layout = {
-  contentWidth: "1180px",
-  narrowWidth: "1100px",
-  readingWidth: "760px",
+  contentWidth: "1380px",
+  narrowWidth: "1280px",
+  readingWidth: "820px",
 };
 
 export const transitions = {

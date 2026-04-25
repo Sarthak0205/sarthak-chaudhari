@@ -60,7 +60,7 @@ function HomeProofPreviews() {
     <Section
       style={{
         position: "relative",
-        paddingBlock: "clamp(3.75rem, 8vw, 5rem)",
+        paddingBlock: "clamp(3.75rem, 7vw, 5.75rem)",
         overflow: "hidden",
       }}
     >

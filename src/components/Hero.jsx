@@ -32,7 +32,7 @@ export default function Hero() {
         style={{
           maxWidth: layout.contentWidth,
           margin: "0 auto",
-          padding: "clamp(1.5rem, 4vw, 2.5rem)",
+          padding: "clamp(1.5rem, 3.5vw, 3rem)",
           borderRadius: radius.lg,
           background: "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.018))",
           border: "1px solid rgba(255,255,255,0.08)",
@@ -77,9 +77,9 @@ export default function Hero() {
                 <h1
                   style={{
                     margin: "0.95rem 0 0",
-                    fontSize: "clamp(1.95rem, 4vw, 3.1rem)",
+                    fontSize: "clamp(1.95rem, 3.2vw + 0.7rem, 3.7rem)",
                     lineHeight: 1.06,
-                    maxWidth: "620px",
+                    maxWidth: "700px",
                     letterSpacing: "-0.03em",
                   }}
                 >
@@ -91,14 +91,14 @@ export default function Hero() {
                 <div
                   style={{
                     marginTop: "1.15rem",
-                    maxWidth: "560px",
+                    maxWidth: "620px",
                   }}
                 >
                   <p
                     style={{
                       margin: 0,
                       color: colors.textMuted,
-                      fontSize: "1rem",
+                      fontSize: "clamp(1rem, 0.96rem + 0.2vw, 1.08rem)",
                       lineHeight: 1.72,
                     }}
                   >
@@ -137,7 +137,7 @@ export default function Hero() {
                 whileHover={{ y: -4 }}
                 transition={{ type: "spring", stiffness: 160, damping: 18 }}
                 style={{
-                  width: "min(100%, 360px)",
+                  width: "min(100%, 400px)",
                   borderRadius: radius.lg,
                   overflow: "hidden",
                   border: "1px solid rgba(255,255,255,0.08)",
@@ -150,7 +150,7 @@ export default function Hero() {
                   alt="Sarthak Chaudhari portrait"
                   style={{
                     width: "100%",
-                    height: "clamp(360px, 44vw, 440px)",
+                    height: "clamp(360px, 32vw, 500px)",
                     objectFit: "cover",
                     display: "block",
                   }}
