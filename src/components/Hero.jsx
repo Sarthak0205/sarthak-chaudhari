@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { motion as Motion } from "framer-motion";
 import { ReactTyped } from "react-typed";
@@ -5,7 +7,14 @@ import { useNavigate } from "react-router-dom";
 
 import Section from "../ui/Section";
 import Button from "../ui/Button";
-import { colors, spacing, text } from "../ui/theme";
+import Reveal from "../ui/Reveal";
+import { colors, layout, radius, sectionHeaderStyles, shadows, spacing } from "../ui/theme";
+
+const typedLines = [
+  "Clear logic over clever code",
+  "Build simply, then refine carefully",
+  "Consistency matters more than complexity"
+];
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -14,144 +23,177 @@ export default function Hero() {
     <Section
       id="about"
       style={{
-        maxWidth: "1280px",
-        margin: "0 auto",
-        minHeight: "90vh",
-        padding: `${spacing.xl} 2rem ${spacing.lg}`,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: spacing.lg,
+        marginTop: "80px",
+        paddingTop: "clamp(1.5rem, 4vw, 2.75rem)",
+        paddingBottom: spacing.sectionTight,
       }}
     >
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: spacing.lg,
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          textAlign: "center",
+          maxWidth: layout.contentWidth,
+          margin: "0 auto",
+          padding: "clamp(1.5rem, 4vw, 2.5rem)",
+          borderRadius: radius.lg,
+          background: "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.018))",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: shadows.hero,
         }}
       >
-        {/* Text */}
-        <Motion.div
+        <div
           style={{
-            flex: "1 1 45%",
-            minWidth: "320px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "clamp(1.75rem, 4vw, 3rem)",
+            alignItems: "center",
           }}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
         >
-          <p
-            style={{
-              color: colors.accent,
-              fontSize: text.lg,
-              fontWeight: 500,
-            }}
-          >
-            Software Engineer • Systems & Data
-          </p>
-
-          <h1
-            style={{
-              fontSize: text.hero,
-              fontWeight: 800,
-              marginTop: spacing.sm,
-            }}
-          >
-            Hi, I’m Sarthak
-          </h1>
-
-          <p
-            style={{
-              marginTop: spacing.sm,
-              fontSize: text.lg,
-              lineHeight: 1.8,
-              color: colors.gray,
-              maxWidth: "640px",
-              marginInline: "auto",
-            }}
-          >
-            I design and build end-to-end software systems with a focus on
-            structured data, access control, and scalable backend logic.
-            My work combines careful system design with practical
-            implementation and data-driven decisions.
-          </p>
-
-          {/* Actions */}
           <div
             style={{
               display: "flex",
-              gap: spacing.md,
-              marginTop: spacing.lg,
+              justifyContent: "flex-start",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                maxWidth: "640px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              <Reveal>
+                <p
+                  style={{
+                    ...sectionHeaderStyles.eyebrow,
+                    textAlign: "left",
+                  }}
+                >
+                  Computer Engineering Student
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.08}>
+                <h1
+                  style={{
+                    margin: "0.95rem 0 0",
+                    fontSize: "clamp(1.95rem, 4vw, 3.1rem)",
+                    lineHeight: 1.06,
+                    maxWidth: "620px",
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  Hi, I’m Sarthak. I build web apps with React, Node.js and PostgreSQL.
+                </h1>
+              </Reveal>
+
+              <Reveal delay={0.15}>
+                <div
+                  style={{
+                    marginTop: "1.15rem",
+                    maxWidth: "560px",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      color: colors.textMuted,
+                      fontSize: "1rem",
+                      lineHeight: 1.72,
+                    }}
+                  >
+                    I like breaking products into small systems that are easy to build, test and improve. I&apos;ve built a study planner and an AI-based recommendation app. During my internship, I shipped updates to a live company website.
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.28}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "0.9rem",
+                    flexWrap: "wrap",
+                    marginTop: "1.75rem",
+                  }}
+                >
+                  <Button onClick={() => navigate("/projects")}>View Projects</Button>
+                  <Button onClick={() => navigate("/resume")} variant="secondary">
+                    Resume
+                  </Button>
+                </div>
+              </Reveal>
+
+            </div>
+          </div>
+
+          <Reveal delay={0.12}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Motion.div
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 160, damping: 18 }}
+                style={{
+                  width: "min(100%, 360px)",
+                  borderRadius: radius.lg,
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "#0a0a0a",
+                  boxShadow: shadows.card,
+                }}
+              >
+                <img
+                  src="/assets/Myself.webp"
+                  alt="Sarthak Chaudhari portrait"
+                  style={{
+                    width: "100%",
+                    height: "clamp(360px, 44vw, 440px)",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </Motion.div>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.36}>
+          <div
+            style={{
+              marginTop: "2rem",
+              width: "100%",
+              display: "flex",
               justifyContent: "center",
             }}
           >
-            <Button onClick={() => navigate("/projects")}>
-              View My Work
-            </Button>
-
-            <Button href="#contact" variant="secondary">
-              Let’s Connect
-            </Button>
+            <div
+              style={{
+                width: "100%",
+                maxWidth: "500px",
+                padding: "0.95rem 1rem",
+                borderRadius: radius.md,
+                background: "rgba(255,42,42,0.045)",
+                border: "1px solid rgba(255,42,42,0.1)",
+                color: colors.textMuted,
+                fontSize: "0.96rem",
+                textAlign: "center",
+                lineHeight: 1.58,
+              }}
+            >
+              <ReactTyped
+                strings={typedLines}
+                typeSpeed={38}
+                backSpeed={22}
+                loop
+                smartBackspace
+              />
+            </div>
           </div>
-        </Motion.div>
-
-        {/* Image */}
-        <Motion.div
-          style={{ flex: "1 1 35%", minWidth: "320px" }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-        >
-          <Motion.img
-            src="assets/Myself.webp"
-            alt="Sarthak"
-            style={{
-              width: "420px",
-              height: "480px",
-              objectFit: "cover",
-              borderRadius: "1.5rem",
-              boxShadow: "0 10px 24px rgba(0,0,0,0.5)",
-            }}
-            whileHover={{ y: -6 }}
-          />
-        </Motion.div>
+        </Reveal>
       </div>
-
-      {/* Typed Statement */}
-      <Motion.div
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(0,200,83,0.15), rgba(77,163,255,0.12))",
-          border: "1px solid rgba(0,200,83,0.35)",
-          borderRadius: "1.2rem",
-          padding: `${spacing.sm} ${spacing.lg}`,
-          textAlign: "center",
-          maxWidth: "850px",
-          fontSize: "1.4rem",
-          fontWeight: 600,
-          backdropFilter: "blur(10px)",
-        }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <ReactTyped
-          strings={[
-            "Designing systems, not just screens.",
-            "Working close to data and access control.",
-            "Turning real problems into reliable software.",
-          ]}
-          typeSpeed={45}
-          backSpeed={25}
-          loop
-        />
-      </Motion.div>
     </Section>
   );
 }

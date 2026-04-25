@@ -1,84 +1,90 @@
-
-import { useNavigate } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
+import { ExternalLink, FileDown } from "lucide-react";
+import {
+  getButtonStyles,
+  getSurfaceStyles,
+  layout,
+  sectionHeaderStyles,
+  sectionStyles,
+} from "../ui/theme";
+
+const resumeSrc = "/assets/Sarthak_Resume.pdf";
 
 export default function Resume() {
-  const navigate = useNavigate();
-
-
   return (
     <Motion.section
-      className="resume-section"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      style={{
+        ...sectionStyles.page,
+        background:
+          "radial-gradient(circle at 20% 20%, rgba(255,42,42,0.06), transparent 40%), #050505",
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35 }}
     >
-      {/* Small toolbar with theme toggle (top-right)
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
-        <Motion.button
-          className="theme-toggle"
-          onClick={toggleTheme}
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.98 }}
-          aria-label="Toggle Dark/Light Mode"
+      <div style={{ maxWidth: layout.narrowWidth, margin: "0 auto" }}>
+        <div style={{ ...sectionHeaderStyles.wrap, marginBottom: "2.1rem" }}>
+          <p
+            style={sectionHeaderStyles.eyebrow}
+          >
+            Resume
+          </p>
+          <h2 style={{ ...sectionHeaderStyles.title, fontSize: "clamp(2.2rem, 5vw, 3rem)" }}>
+            My Resume
+          </h2>
+          <p style={sectionHeaderStyles.body}>
+            View or download my resume.
+          </p>
+        </div>
+
+        <Motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08 }}
+          style={{
+            ...getSurfaceStyles(),
+            overflow: "hidden",
+          }}
         >
-          {isLight ? "☀️" : "🌙"}
-        </Motion.button>
-      </div> */}
+          <iframe
+            src={`${resumeSrc}#toolbar=0&navpanes=0&scrollbar=1`}
+            title="Sarthak Chaudhari resume"
+            style={{
+              width: "100%",
+              height: "78vh",
+              border: "none",
+              background: "#111",
+            }}
+          />
+        </Motion.div>
 
-      <Motion.h2
-        className="resume-title"
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.35 }}
-      >
-        📄 My Resume
-      </Motion.h2>
-
-      {/* Resume Viewer */}
-      <Motion.div
-        className="resume-viewer"
-        initial={{ opacity: 0, scale: 0.98 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4 }}
-      >
-        <embed
-          src="assets/Sarthak_Resume.pdf#zoom=page-fit"
-          type="application/pdf"
-        />
-      </Motion.div>
-
-      {/* Actions */}
-      <Motion.div
-        className="resume-actions"
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.05 }}
-      >
-        <Motion.a
-          href="/assets/Sarthak_Resume.pdf"
-          download="Sarthak_Resume.pdf"
-          className="resume-btn"
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ type: "spring", stiffness: 280, damping: 22 }}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "14px",
+            flexWrap: "wrap",
+            marginTop: "24px",
+          }}
         >
-          ⬇️ Download Resume
-        </Motion.a>
-
-        <Motion.button
-          onClick={() => navigate(-1)}
-          className="resume-btn back"
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ type: "spring", stiffness: 280, damping: 22 }}
-        >
-          🔙 Back
-        </Motion.button>
-      </Motion.div>
+          <a href={resumeSrc} target="_blank" rel="noreferrer" style={secondaryAction}>
+            <ExternalLink size={18} />
+            Open PDF
+          </a>
+          <a href={resumeSrc} download="Sarthak_Resume.pdf" style={primaryAction}>
+            <FileDown size={18} />
+            Download
+          </a>
+        </div>
+      </div>
     </Motion.section>
   );
 }
+
+const primaryAction = {
+  ...getButtonStyles("primary"),
+};
+
+const secondaryAction = {
+  ...getButtonStyles("secondary"),
+};
