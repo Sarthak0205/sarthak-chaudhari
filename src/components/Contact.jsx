@@ -169,7 +169,7 @@ export default function Contact() {
             </div>
 
             <a
-              href="/assets/Sarthak_Resume.pdf"
+              href="/assets/S_Resume.pdf"
               target="_blank"
               rel="noreferrer"
               style={{

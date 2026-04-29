@@ -8,7 +8,7 @@ import {
   sectionStyles,
 } from "../ui/theme";
 
-const resumeSrc = "/assets/Sarthak_Resume.pdf";
+const resumeSrc = "/assets/S_Resume.pdf";
 
 export default function Resume() {
   return (

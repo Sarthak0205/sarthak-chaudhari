@@ -15,7 +15,7 @@ export default function EducationSection() {
     const data = [
         {
             title: "VIT, Vadala",
-            subtitle: "B.E. Computer Engineering · Current",
+            subtitle: "B.Tech Computer Engineering · Current",
             value: "9.58 SGPI",
         },
         {
