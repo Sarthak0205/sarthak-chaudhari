@@ -1,19 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 import { colors, getButtonStyles, layout, radius } from "../ui/theme";
+import { Logo } from "./IntroScreen";
+import { IntroContext } from "../context/IntroContext";
 
 const NAV_HEIGHT = 80;
 const navItems = ["about", "projects", "experience", "skills", "contact"];
 
-function Navbar() {
+function Navbar({ hideLogo }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState("about");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  const { introState } = useContext(IntroContext);
+  const [pulseActive, setPulseActive] = useState(false);
+
+  useEffect(() => {
+    if (introState === "completed") {
+      const t = setTimeout(() => {
+        setPulseActive(true);
+      }, 150); // Pause for 150ms once logo transitions in, then pulse
+      return () => clearTimeout(t);
+    }
+  }, [introState]);
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -157,20 +171,41 @@ function Navbar() {
             padding: 0,
           }}
         >
-          <img
-            src="/logo.png"
-            alt="Sarthak Chaudhari logo"
-            style={{
-              width: "42px",
-              height: "42px",
-              objectFit: "contain",
-              filter: "drop-shadow(0 0 6px rgba(255,42,42,0.18))",
-            }}
-          />
-          {!isMobile && (
-            <span style={{ fontWeight: 700, letterSpacing: "0.02em" }}>
+          {!hideLogo && (
+            <Motion.div
+              layoutId="logo-wrapper"
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              animate={pulseActive ? {
+                scale: [1, 1.06, 1],
+                filter: [
+                  "drop-shadow(0 0 6px rgba(255,42,42,0.18))",
+                  "drop-shadow(0 0 15px rgba(255,42,42,0.65))",
+                  "drop-shadow(0 0 6px rgba(255,42,42,0.18))"
+                ]
+              } : { scale: 1 }}
+              onAnimationComplete={() => {
+                if (pulseActive) setPulseActive(false);
+              }}
+              style={{
+                width: "42px",
+                height: "42px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Logo size={42} />
+            </Motion.div>
+          )}
+          {!isMobile && !hideLogo && (
+            <Motion.span
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={{ fontWeight: 700, letterSpacing: "0.02em" }}
+            >
               Sarthak Chaudhari
-            </span>
+            </Motion.span>
           )}
         </button>
 

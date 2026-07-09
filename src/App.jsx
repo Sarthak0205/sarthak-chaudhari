@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 import { ArrowRight, BriefcaseBusiness, Code2, FolderGit2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +14,7 @@ import EducationSection from "./components/EducationSection";
 import ExperienceSection from "./components/ExperienceSection";
 import CTASection from "./components/CTASection";
 import PageWrapper from "./ui/PageWrapper";
+import IntroScreen from "./components/IntroScreen";
 import Section from "./ui/Section";
 import Reveal from "./ui/Reveal";
 import Button from "./ui/Button";
@@ -23,10 +25,10 @@ import { colors, getSurfaceStyles, layout, radius, sectionHeaderStyles } from ".
 const homePreviews = [
   {
     title: "Featured Project",
-    heading: "Smart Study Planner",
+    heading: "StudyFlow",
     description:
-      "Built a multi-user study planner with React, Django, PostgreSQL, and REST APIs.",
-    meta: "What made it interesting was handling different users, saved plans, and backend-driven schedule flows in one system.",
+      "Built an adaptive study planning platform with React, TypeScript, Node.js, Express, PostgreSQL, and Prisma.",
+    meta: "Designed a difficulty-weighted scheduling algorithm to generate personalized study plans based on user mastery and time constraints.",
     action: "See Project Details",
     to: "/projects",
     icon: <FolderGit2 size={18} />,
@@ -43,7 +45,7 @@ const homePreviews = [
   },
   {
     title: "Skills Snapshot",
-    heading: "React, Django, PostgreSQL, JavaScript",
+    heading: "React, Node.js, TypeScript, PostgreSQL",
     description:
       "I mainly work with frontend flows, API integration, and full-stack projects.",
     meta: "Core stack: React UI, REST APIs, backend logic, and database-backed features.",
@@ -248,12 +250,55 @@ function AnimatedRoutes() {
 }
 
 /* 🔥 APP */
+import { IntroContext } from "./context/IntroContext";
 
 export default function App() {
+  const [introState, setIntroState] = useState(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return "skipped";
+
+    const hasPlayed = sessionStorage.getItem("portfolio_intro_played");
+    return hasPlayed ? "completed" : "intro"; // "intro" | "transition" | "completed" | "skipped"
+  });
+
+  const handleIntroEnd = () => {
+    setIntroState("transition");
+    sessionStorage.setItem("portfolio_intro_played", "true");
+    setTimeout(() => {
+      setIntroState("completed");
+    }, 850);
+  };
+
+  const isIntro = introState === "intro";
+  const isTransitioning = introState === "transition";
+  const isLoaded = introState === "completed" || introState === "skipped";
+
   return (
-    <Router>
-      <Navbar /> {/* ✅ persistent */}
-      <AnimatedRoutes />
-    </Router>
+    <IntroContext.Provider value={{ introState }}>
+      <Router>
+        {/* Persistent Navbar with fade-in stagger */}
+        <Motion.div
+          initial={isIntro ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
+          animate={isLoaded ? { opacity: 1, y: 0 } : (isTransitioning ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 })}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+        >
+          <Navbar hideLogo={isIntro} />
+        </Motion.div>
+
+        {/* Pages Container with stagger */}
+        <Motion.div
+          initial={isIntro ? { opacity: 0 } : { opacity: 1 }}
+          animate={isLoaded ? { opacity: 1 } : (isTransitioning ? { opacity: 1 } : { opacity: 0 })}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+        >
+          <AnimatedRoutes />
+        </Motion.div>
+
+        {/* Intro Overlay Screen */}
+        {!isLoaded && introState !== "skipped" && (
+          <IntroScreen onComplete={handleIntroEnd} isTransitioning={isTransitioning} />
+        )}
+      </Router>
+    </IntroContext.Provider>
   );
 }

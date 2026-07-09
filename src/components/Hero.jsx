@@ -1,9 +1,10 @@
 'use client'
 
-import React from "react";
+import React, { useContext } from "react";
 import { motion as Motion } from "framer-motion";
 import { ReactTyped } from "react-typed";
 import { useNavigate } from "react-router-dom";
+import { IntroContext } from "../context/IntroContext";
 
 import Section from "../ui/Section";
 import Button from "../ui/Button";
@@ -18,6 +19,11 @@ const typedLines = [
 
 export default function Hero() {
   const navigate = useNavigate();
+  const { introState } = useContext(IntroContext);
+  const startReveal =
+    introState === "transition" ||
+    introState === "completed" ||
+    introState === "skipped";
 
   return (
     <Section
@@ -28,7 +34,10 @@ export default function Hero() {
         paddingBottom: spacing.sectionTight,
       }}
     >
-      <div
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.98, y: 16 }}
+        animate={startReveal ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.98, y: 16 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
         style={{
           maxWidth: layout.contentWidth,
           margin: "0 auto",
@@ -62,7 +71,7 @@ export default function Hero() {
                 alignItems: "flex-start",
               }}
             >
-              <Reveal>
+              <Reveal delay={0.12}>
                 <p
                   style={{
                     ...sectionHeaderStyles.eyebrow,
@@ -73,7 +82,7 @@ export default function Hero() {
                 </p>
               </Reveal>
 
-              <Reveal delay={0.08}>
+              <Reveal delay={0.20}>
                 <h1
                   style={{
                     margin: "0.95rem 0 0",
@@ -87,7 +96,7 @@ export default function Hero() {
                 </h1>
               </Reveal>
 
-              <Reveal delay={0.15}>
+              <Reveal delay={0.28}>
                 <div
                   style={{
                     marginTop: "1.15rem",
@@ -107,7 +116,7 @@ export default function Hero() {
                 </div>
               </Reveal>
 
-              <Reveal delay={0.28}>
+              <Reveal delay={0.36}>
                 <div
                   style={{
                     display: "flex",
@@ -126,7 +135,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <Reveal delay={0.12}>
+          <Reveal delay={0.44}>
             <div
               style={{
                 display: "flex",
@@ -160,7 +169,7 @@ export default function Hero() {
           </Reveal>
         </div>
 
-        <Reveal delay={0.36}>
+        <Reveal delay={0.52}>
           <div
             style={{
               marginTop: "2rem",
@@ -193,7 +202,7 @@ export default function Hero() {
             </div>
           </div>
         </Reveal>
-      </div>
+      </Motion.div>
     </Section>
   );
 }

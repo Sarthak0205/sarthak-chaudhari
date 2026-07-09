@@ -1,10 +1,10 @@
 // src/ui/Section.jsx
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { colors, sectionStyles } from "./theme";
 
 export default function Section({ children, id, style }) {
   return (
-    <motion.section
+    <Motion.section
       id={id}
       style={{
         ...sectionStyles.base,
@@ -17,6 +17,6 @@ export default function Section({ children, id, style }) {
       transition={{ duration: 0.35 }}
     >
       {children}
-    </motion.section>
+    </Motion.section>
   );
 }

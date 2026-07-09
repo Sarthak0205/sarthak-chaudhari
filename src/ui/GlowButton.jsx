@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { colors } from "./theme";
 
 export default function GlowButton({
@@ -13,7 +13,7 @@ export default function GlowButton({
     };
 
     return (
-        <motion.button
+        <Motion.button
             onClick={onClick}
             style={{
                 padding: sizes[size],
@@ -39,6 +39,6 @@ export default function GlowButton({
             transition={{ duration: 0.2, ease: "easeOut" }}
         >
             {children}
-        </motion.button>
+        </Motion.button>
     );
 }

@@ -11,7 +11,7 @@ import {
 } from "../ui/theme";
 
 import { FaReact, FaGitAlt } from "react-icons/fa";
-import { SiDjango, SiPostgresql, SiJavascript } from "react-icons/si";
+import { SiNodedotjs, SiPostgresql, SiJavascript } from "react-icons/si";
 import { GiBrain } from "react-icons/gi";
 
 /* 🔥 PREMIUM SKILL CARD */
@@ -155,17 +155,17 @@ export default function Skills() {
   const skills = [
     {
       title: "Backend & APIs",
-      icon: <SiDjango />,
+      icon: <SiNodedotjs />,
       level: 85,
       focus: "Building APIs, request handling, and backend logic for product features",
-      usedIn: "CineSense, Study Planner",
+      usedIn: "CineSense, StudyFlow",
     },
     {
       title: "Databases",
       icon: <SiPostgresql />,
       level: 80,
       focus: "Modeling application data, writing queries, and persisting user plans",
-      usedIn: "Study Planner",
+      usedIn: "StudyFlow",
     },
     {
       title: "AI Systems",
@@ -179,7 +179,7 @@ export default function Skills() {
       icon: <FaReact />,
       level: 75,
       focus: "Responsive interfaces, API integration, and component-driven screens",
-      usedIn: "Study Planner, Navanta Exim",
+      usedIn: "StudyFlow, Navanta Exim",
     },
     {
       title: "Programming",

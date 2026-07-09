@@ -1,10 +1,10 @@
 // src/ui/Card.jsx
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { radius, colors } from "./theme";
 
 export default function Card({ children }) {
     return (
-        <motion.div
+        <Motion.div
             whileHover={{ y: -6 }}
             style={{
                 borderRadius: radius.lg,
@@ -16,6 +16,6 @@ export default function Card({ children }) {
             }}
         >
             {children}
-        </motion.div>
+        </Motion.div>
     );
 }

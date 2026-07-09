@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion as Motion } from "framer-motion";
-import { ExternalLink, Github, Lock } from "lucide-react";
+import { projects } from "../data/projects";
 
 import Section from "../ui/Section";
 import Reveal from "../ui/Reveal";
@@ -14,33 +14,6 @@ import {
 } from "../ui/theme";
 
 const filters = ["All", "Full Stack", "AI / ML"];
-
-const projects = [
-  {
-    title: "CineSense",
-    category: "AI / ML",
-    description:
-      "A recommendation app for movies, series, and anime built with React, Flask, Sentence Transformers, and scikit-learn.",
-    stack: ["React", "Flask", "Sentence Transformers", "scikit-learn", "Plotly"],
-    highlight: "What made it interesting was combining similarity logic, filtering, and different content types in one recommendation flow.",
-    github: "https://github.com/Sarthak0205/CineSense",
-    live: "",
-    image: "/images/cinesense.jpeg",
-    featured: false,
-  },
-  {
-    title: "Smart Study Planner",
-    category: "Full Stack",
-    description:
-      "A multi-user study planning system built with React, Django, PostgreSQL, and REST APIs.",
-    stack: ["React", "Django", "PostgreSQL", "REST APIs"],
-    highlight: "I built it around authenticated users, saved plans, and schedule generation so the frontend and backend stayed in sync.",
-    github: "https://github.com/Sarthak0205/Smart-Study-Planner",
-    live: "",
-    image: "",
-    featured: false,
-  },
-];
 
 function FilterTabs({ activeFilter, onChange }) {
   return (
@@ -83,40 +56,53 @@ function FilterTabs({ activeFilter, onChange }) {
   );
 }
 
-function CategoryBadge({ category, featured }) {
+function CategoryBadge({ category, live }) {
   return (
-    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
       <span
         style={{
           display: "inline-flex",
           alignItems: "center",
-          padding: "8px 12px",
+          padding: "4px 8px",
           borderRadius: radius.pill,
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.06)",
           color: "#dedede",
-          fontSize: "0.8rem",
+          fontSize: "0.74rem",
           fontWeight: 700,
         }}
       >
         {category}
       </span>
 
-      {featured && (
+      {live && (
         <span
           style={{
             display: "inline-flex",
             alignItems: "center",
-            padding: "8px 12px",
+            gap: "5px",
+            padding: "4px 8px",
             borderRadius: radius.pill,
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            color: "#bdbdbd",
-            fontSize: "0.8rem",
-            fontWeight: 600,
+            background: "rgba(16, 185, 129, 0.1)",
+            border: "1px solid rgba(16, 185, 129, 0.2)",
+            color: "#34d399",
+            fontSize: "0.74rem",
+            fontWeight: 700,
           }}
         >
-          Proof Linked
+          <Motion.span
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            style={{
+              display: "inline-block",
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              background: "#10b981",
+              boxShadow: "0 0 6px #10b981",
+            }}
+          />
+          Live
         </span>
       )}
     </div>
@@ -127,12 +113,14 @@ function TechPill({ tech }) {
   return (
     <span
       style={{
-        padding: "7px 10px",
+        padding: "3px 8px",
         borderRadius: radius.pill,
-        border: "1px solid rgba(255,255,255,0.08)",
-        background: "rgba(255,255,255,0.03)",
-        color: "#d7d7d7",
-        fontSize: "0.82rem",
+        border: "1px solid rgba(255, 255, 255, 0.05)",
+        background: "rgba(255, 255, 255, 0.02)",
+        color: "#d4d4d4",
+        fontSize: "0.74rem",
+        fontWeight: 500,
+        letterSpacing: "0.01em",
       }}
     >
       {tech}
@@ -140,28 +128,37 @@ function TechPill({ tech }) {
   );
 }
 
-function ActionLink({ href, label, primary = false, locked = false, icon }) {
+function ActionLink({ href, label, primary = false, icon }) {
+  const baseStyle = {
+    ...getButtonStyles(primary ? "primary" : "secondary"),
+    minHeight: "40px",
+    padding: "0.55rem 1rem",
+    fontSize: "0.86rem",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "6px",
+    flex: 1, // Ensures identical width and alignment
+  };
+
   if (!href) {
     return (
-      <div
+      <button
+        disabled
+        aria-label={`${label} (coming soon)`}
         style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "8px",
-          minHeight: "46px",
-          padding: "0.78rem 1.12rem",
-          borderRadius: radius.md,
-          border: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(255,255,255,0.03)",
-          color: "#a2a2a2",
-          fontSize: "0.92rem",
-          fontWeight: 600,
-          lineHeight: 1.2,
+          ...baseStyle,
+          background: "rgba(255,255,255,0.015)",
+          border: "1px solid rgba(255,255,255,0.04)",
+          color: "rgba(255,255,255,0.25)",
+          cursor: "not-allowed",
+          whiteSpace: "nowrap",
+          boxShadow: "none",
         }}
       >
-        {locked ? <Lock size={16} /> : <ExternalLink size={16} />}
+        {icon}
         {label}
-      </div>
+      </button>
     );
   }
 
@@ -170,11 +167,10 @@ function ActionLink({ href, label, primary = false, locked = false, icon }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      style={{
-        ...getButtonStyles(primary ? "primary" : "secondary"),
-      }}
+      aria-label={`${label} (opens in a new tab)`}
+      style={baseStyle}
     >
-      {icon ?? (primary ? <ExternalLink size={16} /> : <Github size={16} />)}
+      {icon}
       {label}
     </a>
   );
@@ -183,96 +179,276 @@ function ActionLink({ href, label, primary = false, locked = false, icon }) {
 function ProjectCard({ project }) {
   return (
     <Motion.article
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 160, damping: 18 }}
+      whileHover={{
+        y: -6,
+        borderColor: project.featured ? "rgba(255, 42, 42, 0.3)" : "rgba(255, 255, 255, 0.12)",
+        boxShadow: project.featured
+          ? "0 24px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 42, 42, 0.15)"
+          : "0 24px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08)",
+      }}
+      transition={{ type: "spring", stiffness: 180, damping: 20 }}
       style={{
         height: "100%",
-        display: "grid",
-        gridTemplateRows: project.image ? "190px auto" : "auto",
-        ...getSurfaceStyles(project.category === "Internship" ? "accent" : "default"),
+        display: "flex",
+        flexDirection: "column",
+        ...getSurfaceStyles(project.featured ? "accent" : "default"),
         overflow: "hidden",
+        position: "relative",
+        transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: project.featured ? "rgba(255, 42, 42, 0.12)" : "rgba(255, 255, 255, 0.05)",
+        boxShadow: project.featured
+          ? "0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 42, 42, 0.08)"
+          : "0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04)"
       }}
     >
-      {project.image ? (
-        <div style={{ position: "relative" }}>
-          <img
-            src={project.image}
-            alt={project.title}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
+      {/* Floating Screenshot Container */}
+      <div style={{
+        padding: "24px 24px 0 24px",
+        position: "relative",
+        width: "100%",
+        boxSizing: "border-box",
+      }}>
+        <div style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: "16 / 10",
+          overflow: "hidden",
+          borderRadius: "8px",
+          border: "1px solid rgba(255, 255, 255, 0.06)",
+          background: "#080808",
+          boxShadow: "0 6px 20px rgba(0,0,0,0.4)",
+        }}>
+          {/* Subtle Window Top Bar */}
+          <div style={{
+            height: "16px",
+            background: "rgba(255, 255, 255, 0.02)",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: "8px",
+            position: "relative",
+            zIndex: 5,
+          }}>
+            <div style={{ display: "flex", gap: "4px" }}>
+              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.15)" }} />
+              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.15)" }} />
+              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.15)" }} />
+            </div>
+          </div>
+
+          {/* Screenshot Image with Hover Zoom */}
+          <div style={{
+            width: "100%",
+            height: "calc(100% - 16px)",
+            overflow: "hidden",
+            position: "relative",
+          }}>
+            {project.image ? (
+              <Motion.img
+                src={project.image}
+                alt={`${project.title} Application Preview`}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: project.imagePosition || "top",
+                  display: "block",
+                }}
+              />
+            ) : (
+              <div style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative"
+              }}>
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  opacity: 0.04,
+                  backgroundImage: "radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px)",
+                  backgroundSize: "16px 16px"
+                }} />
+                <span style={{
+                  fontSize: "1.4rem",
+                  fontWeight: 850,
+                  letterSpacing: "0.08em",
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.01) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textTransform: "uppercase"
+                }}>
+                  {project.title.split(" ").map(w => w[0]).join("")}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Featured Badge */}
+        {project.featured && (
           <div
             style={{
               position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.28) 45%, rgba(0,0,0,0.12))",
+              top: "34px",
+              right: "34px",
+              zIndex: 10,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "5px",
+              padding: "4px 8px",
+              borderRadius: radius.pill,
+              background: "rgba(5, 5, 5, 0.75)",
+              border: "1px solid rgba(255, 42, 42, 0.3)",
+              color: "#ff9999",
+              fontSize: "0.65rem",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.5)",
+              backdropFilter: "blur(4px)",
             }}
-          />
-        </div>
-      ) : null}
+          >
+            <Motion.span
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              style={{
+                display: "inline-block",
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                background: "#ff2a2a",
+                boxShadow: "0 0 6px #ff2a2a",
+              }}
+            />
+            Featured
+          </div>
+        )}
+      </div>
 
-      <div style={{ padding: "24px", display: "grid", gap: "16px" }}>
-        <CategoryBadge category={project.category} featured={project.featured} />
+      {/* Card Content */}
+      <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "20px", flex: 1 }}>
+        <CategoryBadge category={project.category} live={!!project.live} />
 
-        <div>
+        <div style={{ display: "grid", gap: "6px" }}>
           <h3
             style={{
               margin: 0,
               color: "#fff",
-              fontSize: "1.26rem",
-              lineHeight: 1.22,
+              fontSize: "1.4rem",
+              lineHeight: 1.15,
+              fontWeight: 800,
+              letterSpacing: "-0.01em"
             }}
           >
             {project.title}
           </h3>
+          {project.tagline && (
+            <p
+              style={{
+                margin: 0,
+                color: colors.textSoft,
+                fontSize: "0.92rem",
+                fontWeight: 500,
+                lineHeight: 1.3
+              }}
+            >
+              {project.tagline}
+            </p>
+          )}
           <p
             style={{
-              margin: "12px 0 0",
+              margin: "6px 0 0",
               color: colors.textMuted,
-              fontSize: "0.95rem",
-              lineHeight: 1.7,
+              fontSize: "0.92rem",
+              lineHeight: 1.65,
             }}
           >
             {project.description}
           </p>
         </div>
 
-        <div
-          style={{
-            padding: "14px 15px",
-            borderRadius: radius.md,
-            border: "1px solid rgba(255,255,255,0.06)",
-            background: "rgba(255,255,255,0.025)",
-          }}
-        >
-          <div
-            style={{
-              color: colors.primary,
-              fontWeight: 700,
-              fontSize: "0.74rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-            }}
-          >
-            Highlight
+        {/* Feature Tags */}
+        {project.featureTags && project.featureTags.length > 0 && (
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBlock: "2px" }}>
+            {project.featureTags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: 600,
+                  color: "rgba(255, 255, 255, 0.4)",
+                  background: "rgba(255, 255, 255, 0.025)",
+                  padding: "3px 6px",
+                  borderRadius: "4px",
+                  border: "1px solid rgba(255, 255, 255, 0.04)",
+                }}
+              >
+                {tag}
+              </span>
+            ))}
           </div>
-          <div
-            style={{
-              marginTop: "8px",
-              color: "#e1e1e1",
-              fontSize: "0.9rem",
-              lineHeight: 1.62,
-            }}
-          >
-            {project.highlight}
-          </div>
-        </div>
+        )}
 
+        {/* Checklist Highlights */}
+        {project.highlights && project.highlights.length > 0 && (
+          <div
+            style={{
+              padding: "14px 15px",
+              borderRadius: radius.md,
+              border: "1px solid rgba(255,255,255,0.04)",
+              background: "rgba(255,255,255,0.01)",
+              marginTop: "auto"
+            }}
+          >
+            <div
+              style={{
+                color: colors.primary,
+                fontWeight: 700,
+                fontSize: "0.74rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                marginBottom: "8px"
+              }}
+            >
+              Key Deliverables
+            </div>
+            <ul
+              style={{
+                margin: 0,
+                padding: 0,
+                display: "grid",
+                gap: "6px",
+              }}
+            >
+              {project.highlights.map((pt, i) => (
+                <li
+                  key={i}
+                  style={{
+                    listStyleType: "none",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "8px",
+                    color: "#d1d1d1",
+                    fontSize: "0.86rem",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  <span style={{ color: colors.primary, fontWeight: 700, lineHeight: 1.1 }}>✓</span>
+                  <span>{pt}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Tech Stack */}
         <div>
           <div
             style={{
@@ -281,30 +457,31 @@ function ProjectCard({ project }) {
               fontSize: "0.74rem",
               textTransform: "uppercase",
               letterSpacing: "0.06em",
-              marginBottom: "10px",
+              marginBottom: "8px",
             }}
           >
             Tech Stack
           </div>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            {project.stack.map((tech) => (
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+            {project.techStack.map((tech) => (
               <TechPill key={`${project.title}-${tech}`} tech={tech} />
             ))}
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        {/* Actions */}
+        <div style={{ display: "flex", gap: "12px", width: "100%", marginTop: "4px" }}>
+          <ActionLink
+            href={project.live}
+            label="Live Demo"
+            primary
+            icon={<span style={{ fontSize: "1rem", lineHeight: 1 }}>🚀</span>}
+          />
           <ActionLink
             href={project.github}
             label="GitHub"
+            icon={<span style={{ fontSize: "1rem", lineHeight: 1 }}>💻</span>}
           />
-          {project.live ? (
-            <ActionLink
-              href={project.live}
-              label="Live Demo"
-              primary
-            />
-          ) : null}
         </div>
       </div>
     </Motion.article>
@@ -316,7 +493,16 @@ export default function Projects() {
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "All") return projects;
-    return projects.filter((project) => project.category === activeFilter);
+    return projects.filter((project) => {
+      const cat = project.category.toLowerCase();
+      if (activeFilter === "Full Stack") {
+        return cat.includes("full stack");
+      }
+      if (activeFilter === "AI / ML") {
+        return cat.includes("ai") || cat.includes("ml") || cat.includes("machine learning");
+      }
+      return cat.includes(activeFilter.toLowerCase());
+    });
   }, [activeFilter]);
 
   return (
@@ -378,7 +564,7 @@ export default function Projects() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
             gap: "24px",
           }}
         >
