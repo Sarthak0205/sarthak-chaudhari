@@ -9,6 +9,7 @@ import Skills from "./components/Skills";
 import Contact from "./components/Contact";
 import Resume from "./components/Resume";
 import Projects from "./components/Projects";
+import Credentials, { CredentialsPreview } from "./components/Credentials";
 import Navbar from "./components/Navbar";
 import EducationSection from "./components/EducationSection";
 import ExperienceSection from "./components/ExperienceSection";
@@ -24,12 +25,32 @@ import { colors, getSurfaceStyles, layout, radius, sectionHeaderStyles } from ".
 
 const homePreviews = [
   {
-    title: "Featured Project",
-    heading: "StudyFlow",
+    title: "Featured AI / ML",
+    heading: "Adaptive Payment Recovery",
     description:
-      "Built an adaptive study planning platform with React, TypeScript, Node.js, Express, PostgreSQL, and Prisma.",
-    meta: "Designed a difficulty-weighted scheduling algorithm to generate personalized study plans based on user mastery and time constraints.",
-    action: "See Project Details",
+      "Fintech decision engine evaluating failed transactions with Logistic Regression, deterministic guardrails, and Expected Net Value calculations.",
+    meta: "Verified 72.41% ROC-AUC over 20,000 synthetic records with FastAPI backend and live deployment.",
+    action: "View Project",
+    to: "/projects",
+    icon: <FolderGit2 size={18} />,
+  },
+  {
+    title: "Recommender Systems",
+    heading: "CineSense",
+    description:
+      "Two-stage anime recommendation platform pairing dense Sentence-Transformers (all-MiniLM-L6-v2) retrieval with collaborative graph reranking.",
+    meta: "Verified 51.50% Hit Rate@10 over 16,261 catalog titles with 7,533 graph nodes and sub-100ms response times.",
+    action: "View Project",
+    to: "/projects",
+    icon: <FolderGit2 size={18} />,
+  },
+  {
+    title: "Fitness Intelligence",
+    heading: "TrainWise",
+    description:
+      "Full-stack fitness intelligence platform with Node.js backend and dedicated Python FastAPI Random Forest microservice.",
+    meta: "Verified 1.24 kg weight MAE with ~80% error reduction vs heuristic baseline across 331 test sessions.",
+    action: "View Project",
     to: "/projects",
     icon: <FolderGit2 size={18} />,
   },
@@ -45,10 +66,10 @@ const homePreviews = [
   },
   {
     title: "Skills Snapshot",
-    heading: "React, Node.js, TypeScript, PostgreSQL",
+    heading: "Full-Stack & Machine Learning",
     description:
-      "I mainly work with frontend flows, API integration, and full-stack projects.",
-    meta: "Core stack: React UI, REST APIs, backend logic, and database-backed features.",
+      "Building scalable frontend interfaces, microservices, decision pipelines, and production machine learning workflows.",
+    meta: "Core stack: React/TypeScript UI, FastAPI/Express backends, ML inference, and relational databases.",
     action: "Browse Skills",
     to: "/skills",
     icon: <Code2 size={18} />,
@@ -184,6 +205,7 @@ function HomePage() {
     <PageWrapper>
       <Hero />
       <HomeProofPreviews />
+      <CredentialsPreview />
       <EducationSection />
       <CTASection />
     </PageWrapper>
@@ -222,6 +244,14 @@ function ResumePage() {
   );
 }
 
+function CredentialsPage() {
+  return (
+    <PageWrapper>
+      <Credentials />
+    </PageWrapper>
+  );
+}
+
 function ContactPage() {
   return (
     <PageWrapper>
@@ -242,6 +272,7 @@ function AnimatedRoutes() {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/experience" element={<ExperiencePage />} />
         <Route path="/skills" element={<SkillsPage />} /> {/* ✅ NEW ROUTE */}
+        <Route path="/credentials" element={<CredentialsPage />} />
         <Route path="/resume" element={<ResumePage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>

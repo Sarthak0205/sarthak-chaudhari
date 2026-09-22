@@ -8,7 +8,7 @@ import { Logo } from "./IntroScreen";
 import { IntroContext } from "../context/IntroContext";
 
 const NAV_HEIGHT = 80;
-const navItems = ["about", "projects", "experience", "skills", "contact"];
+const navItems = ["about", "projects", "experience", "skills", "credentials", "contact"];
 
 function Navbar({ hideLogo }) {
   const navigate = useNavigate();
@@ -58,6 +58,11 @@ function Navbar({ hideLogo }) {
 
     if (item === "skills") {
       navigate("/skills");
+      return;
+    }
+
+    if (item === "credentials") {
+      navigate("/credentials");
       return;
     }
 
@@ -123,6 +128,8 @@ function Navbar({ hideLogo }) {
       setActive("resume");
     } else if (location.pathname === "/skills") {
       setActive("skills");
+    } else if (location.pathname === "/credentials") {
+      setActive("credentials");
     } else if (location.pathname === "/") {
       setActive("about");
     }

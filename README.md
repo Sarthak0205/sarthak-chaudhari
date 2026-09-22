@@ -20,12 +20,12 @@ I build projects end-to-end — from database schema and access control to backe
 ## Selected Projects
 
 ### CineSense
-A content-based movie recommendation system that suggests films based on user preferences and similarity between items.
+A two-stage hybrid recommendation platform combining dense semantic candidate retrieval with collaborative graph reranking and franchise diversity enforcement across 16,261 catalog records.
 
 **Focus areas:**
-- Data preprocessing and feature extraction
-- Similarity-based recommendation logic
-- Translating recommendation output into a usable application flow
+- Two-stage architecture: dense semantic candidate generation + collaborative graph reranking
+- 384-dimensional Sentence-Transformer embeddings (`all-MiniLM-L6-v2`)
+- Sub-100ms response times, 51.50% Hit Rate@10, and franchise deduplication
 
 This project focuses on how recommendation logic fits into a system — including data preparation, evaluation, and presentation — rather than treating it as a standalone algorithm.
 
